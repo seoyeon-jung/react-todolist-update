@@ -1,5 +1,7 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
+import Header from "./redux/components/UI/Header";
+import Layout from "./redux/components/UI/Layout";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -11,6 +13,9 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      <Layout>
+        <Header />
+      </Layout>
     </>
   );
 }
