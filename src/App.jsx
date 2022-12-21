@@ -1,7 +1,10 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import Header from "./redux/components/UI/Header";
-import Layout from "./redux/components/UI/Layout";
+import { ToastContainer } from "react-toastify";
+import Header from "./components/UI/Header";
+import Layout from "./components/UI/Layout";
+import TodoInput from "./components/features/TodoInput";
+import TodoList from "./components/features/TodoList";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -15,7 +18,11 @@ function App() {
       <GlobalStyle />
       <Layout>
         <Header />
+        <TodoInput />
+        <TodoList check={true} />
+        <TodoList check={false} />
       </Layout>
+      <ToastContainer position={"top-center"} />
     </>
   );
 }
