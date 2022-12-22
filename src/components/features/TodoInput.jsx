@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../../redux/modules/todos";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { __postTodo } from "../../redux/modules/TodoSlice";
 
 const InputBox = styled.form`
   display: flex;
@@ -33,21 +33,17 @@ const InputBtn = styled.button`
 `;
 
 const TodoInput = () => {
-  const id = uuidv4();
-
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
-
-  const [todo, setTodo] = useState({
-    id: uuidv4(),
-    title: "",
-    text: "",
-    check: false,
-  });
 
   // changehandler
   const onChange = (e) => {
-    const { name, value } = e.target;
-    setTodo({ ...todo, [name]: value });
+    if (e.target.id === "title") {
+      setTitle(e.target.value);
+    } else if (e.target.id === "text") {
+      setText(e.target.value);
+    }
   };
 
   // onSubmit
@@ -55,36 +51,39 @@ const TodoInput = () => {
     e.preventDefault(); // 새로고침 방지
 
     // 입력칸 공백 방지
-    if (!todo.text || !todo.title) {
+    if (!text || !title) {
       toast.warning("제목과 내용 모두 입력해주세요!");
       return;
     }
 
-    dispatch(addTodo({ ...todo, id }));
-
-    setTodo({
-      id: uuidv4(),
-      title: "",
-      text: "",
-      check: false,
-    });
+    if (title && text) {
+      const newTodo = {
+        id: uuidv4(),
+        title: title,
+        text: text,
+        check: false,
+      };
+      dispatch(__postTodo(newTodo));
+      setTitle("");
+      setText("");
+    }
   };
 
   return (
     <InputBox>
       <InputText
         type="text"
-        name="title"
-        value={todo.title}
+        id="title"
+        value={title}
         onChange={onChange}
-        placeholder="제목"
+        placeholder="제목을 입력해주세요"
       />
       <InputText
         type="text"
-        name="text"
-        value={todo.text}
+        id="text"
+        value={text}
         onChange={onChange}
-        placeholder="내용"
+        placeholder="내용을 입력해주세요"
       />
       <InputBtn type="submit" onClick={onSubmit}>
         ➕

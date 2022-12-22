@@ -1,21 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { deleteTodo, toggleTodo } from "../../redux/modules/todos";
+import { useDispatch, useSelector } from "react-redux";
+import { switchTodo } from "../../redux/modules";
+import { __deleteTodo } from "../../redux/modules/TodoSlice";
 
 function TodoItem({ todo, check }) {
   // hooks
   const dispatch = useDispatch();
+  const { isLoading, error } = useSelector((state) => state.TodoSlice);
 
   // delete
   const onDelete = (id) => {
-    dispatch(deleteTodo(id));
+    dispatch(__deleteTodo(id));
   };
 
   // toggle
   const onToggle = (id) => {
-    dispatch(toggleTodo(id));
+    dispatch(switchTodo(id));
   };
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <div>

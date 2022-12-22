@@ -1,0 +1,11 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "title": "React",
+      "text": "리액트 과제 제출하기",
+      "check": false
+    }
+  ],
+  "todo": []
+}
