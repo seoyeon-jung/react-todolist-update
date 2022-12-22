@@ -6,6 +6,10 @@ import Layout from "./components/UI/Layout";
 import TodoInput from "./components/features/TodoInput";
 import TodoList from "./components/features/TodoList";
 
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { __getTodo } from "./redux/modules/TodoSlice";
+
 const GlobalStyle = createGlobalStyle`
   body {
     background: #e9e9e9;
@@ -13,6 +17,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getTodo());
+  }, [dispatch]);
+
   return (
     <>
       <GlobalStyle />
